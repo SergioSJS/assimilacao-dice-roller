@@ -13,7 +13,7 @@
 		"./css/assimilacao-roll.css"
 	],
 	"url": "https://github.com/SergioSJS/assimilacao-dice-roller",
-	"manifest": "https://github.com/SergioSJS/assimilacao-dice-roller/main/module.json",
+	"manifest": "https://raw.githubusercontent.com/SergioSJS/assimilacao-dice-roller/refs/heads/main/module.json",
 	"download": "https://github.com/SergioSJS/assimilacao-dice-roller/archive/refs/heads/main.zip",
 	"dependencies": [
 		{

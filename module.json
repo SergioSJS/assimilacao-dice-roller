@@ -1,0 +1,25 @@
+{
+	"name": "assimilacao-dice-roller",
+	"title": "Assimilacao Dice Roller",
+	"description": "Adds the ability to roll a Assimilacao die",
+	"version": "0.1.0",
+	"minimumCoreVersion" : "0.8.8",
+	"compatibleCoreVersion" : "12",
+	"author": "Sérgio Sousa (meioorc.com)",
+	"esmodules": [
+		"./modules/assimilacao-roll.js"
+	],
+	"styles": [
+		"./css/assimilacao-roll.css"
+	],
+	"url": "https://github.com/SergioSJS/assimilacao-dice-roller",
+	"manifest": "https://github.com/SergioSJS/assimilacao-dice-roller/master/module.json",
+	"download": "https://github.com/SergioSJS/assimilacao-dice-roller/archive/refs/heads/main.zip",
+	"dependencies": [
+		{
+			"name": "dice-so-nice",
+			"title": "Dice So Nice!",
+			"manifest": "https://gitlab.com/riccisi/foundryvtt-dice-so-nice/raw/master/module/module.json"
+		}
+	]
+}

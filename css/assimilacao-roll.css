@@ -1,0 +1,57 @@
+
+/* Cada dado individual */
+.dice-tooltip .dice-result {
+    width: 80px; /* Define largura fixa */
+    height: 80px; /* Define altura fixa */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px; /* Cantos arredondados */
+    overflow: hidden; /* Esconde conteúdo extra */
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1); /* Sombra interna */
+}
+
+/* Ajuste para as imagens dentro dos dados */
+.dice-tooltip .dice-result img {
+    max-width: 100%; /* Garante que a imagem preencha o contêiner */
+    max-height: 100%; /* Mantém a proporção da imagem */
+    object-fit: contain; /* Ajusta a imagem ao contêiner */
+    padding: 2px;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 600px) {
+    .dice-tooltip .dice-result {
+        width: 70px; /* Reduz o tamanho em telas menores */
+        height: 70px;
+    }
+}
+
+/* .dice-tooltip .dice-rolls .roll {
+    filter: none !important; 
+    color: inherit !important;
+    margin-right: 2px;
+    margin-bottom: 2px;
+} */
+
+.dice-tooltip .dice-rolls .roll.dieassimilacaod6,
+.dice-tooltip .dice-rolls .roll.dieassimilacaod10,
+.dice-tooltip .dice-rolls .roll.dieassimilacaod12 {
+    filter: none !important;
+    color: inherit !important;
+    margin-right: 2px;
+    margin-bottom: 2px;
+}
+
+/* Estilo para o frame sobreposto */
+.dice-result .dice-frame {
+    position: absolute; /* Posiciona o frame sobre a face do dado */
+    top: 0;
+    left: 0;
+    width: 100%; /* Garante que o frame cubra todo o contêiner */
+    height: 100%;
+    pointer-events: none; /* Permite clicar na imagem do dado, ignorando o frame */
+    border: none !important; /* Remove a borda padrão */
+    border-radius: 0 !important; /* Remove arredondamento, se necessário */
+    padding: 3px;
+}

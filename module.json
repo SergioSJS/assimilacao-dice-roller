@@ -13,13 +13,13 @@
 		"./css/assimilacao-roll.css"
 	],
 	"url": "https://github.com/SergioSJS/assimilacao-dice-roller",
-	"manifest": "https://github.com/SergioSJS/assimilacao-dice-roller/master/module.json",
+	"manifest": "https://github.com/SergioSJS/assimilacao-dice-roller/main/module.json",
 	"download": "https://github.com/SergioSJS/assimilacao-dice-roller/archive/refs/heads/main.zip",
 	"dependencies": [
 		{
 			"name": "dice-so-nice",
 			"title": "Dice So Nice!",
-			"manifest": "https://gitlab.com/riccisi/foundryvtt-dice-so-nice/raw/master/module/module.json"
+			"manifest": "https://gitlab.com/riccisi/foundryvtt-dice-so-nice/raw/main/module/module.json"
 		}
 	]
 }

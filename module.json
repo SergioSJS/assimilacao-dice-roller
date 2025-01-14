@@ -2,12 +2,13 @@
 	"name": "assimilacao-dice-roller",
 	"title": "Assimilacao Dice Roller",
 	"description": "Adds the ability to roll a Assimilacao die",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"minimumCoreVersion" : "0.8.8",
 	"compatibleCoreVersion" : "12",
 	"author": "Sérgio Sousa (meioorc.com)",
 	"esmodules": [
-		"./modules/assimilacao-roll.js"
+		"./modules/assimilacao-roll.js",
+		"./modules/macro-setup.js"
 	],
 	"styles": [
 		"./css/assimilacao-roll.css"

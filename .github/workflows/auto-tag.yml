@@ -1,0 +1,29 @@
+name: Auto Tag
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    # Skip commits made by the release workflow (module.json bump) to avoid infinite loop
+    if: github.actor != 'github-actions[bot]'
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Bump version and push tag
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_branches: main
+          # Only tag on feat/fix/perf/breaking — ignore chore/docs/style/refactor/test
+          default_bump: false
+          custom_release_rules: |
+            feat:minor,fix:patch,perf:patch,revert:patch

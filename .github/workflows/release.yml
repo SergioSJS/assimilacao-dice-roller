@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - 'v*'
+  repository_dispatch:
+    types: [release-trigger]
 
 jobs:
   release:
@@ -21,7 +23,12 @@ jobs:
       - name: Extract version and set URLs
         id: vars
         run: |
-          TAG="${{ github.ref_name }}"
+          # Se disparado por repository_dispatch, usar o tag do payload
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            TAG="${{ github.event.client_payload.tag }}"
+          else
+            TAG="${{ github.ref_name }}"
+          fi
           VERSION="${TAG#v}"
           DOWNLOAD="https://github.com/${{ github.repository }}/releases/download/${TAG}/assimilacao-dice-roller.zip"
           echo "TAG=${TAG}" >> $GITHUB_OUTPUT

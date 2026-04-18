@@ -2,7 +2,7 @@
   "id": "assimilacao-dice-roller",
   "title": "Assimilacao Dice Roller",
   "description": "Adds custom dice and rolling support for Assimilação RPG, including 3D dice integration via Dice So Nice!",
-  "version": "0.3.0",
+  "version": "0.3.3",
   "compatibility": {
     "minimum": "12",
     "verified": "14"
@@ -22,7 +22,7 @@
   ],
   "url": "https://github.com/SergioSJS/assimilacao-dice-roller",
   "manifest": "https://raw.githubusercontent.com/SergioSJS/assimilacao-dice-roller/main/module.json",
-  "download": "https://github.com/SergioSJS/assimilacao-dice-roller/releases/download/v0.3.0/assimilacao-dice-roller.zip",
+  "download": "https://github.com/SergioSJS/assimilacao-dice-roller/releases/download/v0.3.3/assimilacao-dice-roller.zip",
   "relationships": {
     "requires": [
       {

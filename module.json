@@ -1,34 +1,34 @@
 {
-	"id": "assimilacao-dice-roller",
-	"title": "Assimilacao Dice Roller",
-	"description": "Adds custom dice and rolling support for Assimilação RPG, including 3D dice integration via Dice So Nice!",
-	"version": "0.3.0",
-	"compatibility": {
-		"minimum": "12",
-		"verified": "14"
-	},
-	"authors": [
-		{
-			"name": "Sérgio Sousa",
-			"url": "https://meioorc.com"
-		}
-	],
-	"esmodules": [
-		"./modules/assimilacao-roll.js",
-		"./modules/macro-setup.js"
-	],
-	"styles": [
-		"./css/assimilacao-roll.css"
-	],
-	"url": "https://github.com/SergioSJS/assimilacao-dice-roller",
-	"manifest": "https://raw.githubusercontent.com/SergioSJS/assimilacao-dice-roller/main/module.json",
-	"download": "https://github.com/SergioSJS/assimilacao-dice-roller/releases/latest/download/assimilacao-dice-roller.zip",
-	"relationships": {
-		"requires": [
-			{
-				"id": "dice-so-nice",
-				"type": "module"
-			}
-		]
-	}
+  "id": "assimilacao-dice-roller",
+  "title": "Assimilacao Dice Roller",
+  "description": "Adds custom dice and rolling support for Assimilação RPG, including 3D dice integration via Dice So Nice!",
+  "version": "0.3.0",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "14"
+  },
+  "authors": [
+    {
+      "name": "Sérgio Sousa",
+      "url": "https://meioorc.com"
+    }
+  ],
+  "esmodules": [
+    "./modules/assimilacao-roll.js",
+    "./modules/macro-setup.js"
+  ],
+  "styles": [
+    "./css/assimilacao-roll.css"
+  ],
+  "url": "https://github.com/SergioSJS/assimilacao-dice-roller",
+  "manifest": "https://raw.githubusercontent.com/SergioSJS/assimilacao-dice-roller/main/module.json",
+  "download": "https://github.com/SergioSJS/assimilacao-dice-roller/releases/download/v0.3.0/assimilacao-dice-roller.zip",
+  "relationships": {
+    "requires": [
+      {
+        "id": "dice-so-nice",
+        "type": "module"
+      }
+    ]
+  }
 }

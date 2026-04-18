@@ -5,25 +5,25 @@ export const macroCommand = `
             <div class="form-group">
                 <label>Quantidade de D6:</label>
                 <div style="display:flex;gap:5px;align-items:center">
-                    <button type="button" onclick="var i=this.closest('div').querySelector('input');if(+i.value>0)i.value=+i.value-1">-</button>
+                    <button type="button" class="btn-minus">-</button>
                     <input type="number" name="d6" value="0" min="0" style="width:50px;text-align:center">
-                    <button type="button" onclick="var i=this.closest('div').querySelector('input');i.value=+i.value+1">+</button>
+                    <button type="button" class="btn-plus">+</button>
                 </div>
             </div>
             <div class="form-group">
                 <label>Quantidade de D10:</label>
                 <div style="display:flex;gap:5px;align-items:center">
-                    <button type="button" onclick="var i=this.closest('div').querySelector('input');if(+i.value>0)i.value=+i.value-1">-</button>
+                    <button type="button" class="btn-minus">-</button>
                     <input type="number" name="d10" value="0" min="0" style="width:50px;text-align:center">
-                    <button type="button" onclick="var i=this.closest('div').querySelector('input');i.value=+i.value+1">+</button>
+                    <button type="button" class="btn-plus">+</button>
                 </div>
             </div>
             <div class="form-group">
                 <label>Quantidade de D12:</label>
                 <div style="display:flex;gap:5px;align-items:center">
-                    <button type="button" onclick="var i=this.closest('div').querySelector('input');if(+i.value>0)i.value=+i.value-1">-</button>
+                    <button type="button" class="btn-minus">-</button>
                     <input type="number" name="d12" value="0" min="0" style="width:50px;text-align:center">
-                    <button type="button" onclick="var i=this.closest('div').querySelector('input');i.value=+i.value+1">+</button>
+                    <button type="button" class="btn-plus">+</button>
                 </div>
             </div>
         </form>
@@ -43,8 +43,32 @@ export const macroCommand = `
         await roll.toMessage({ speaker: ChatMessage.getSpeaker() });
     }
 
+    function setupButtons(html) {
+        const container = html.length ? html[0] : html;
+
+        container.querySelectorAll('.btn-minus').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const input = e.currentTarget.closest('div').querySelector('input');
+                if (parseInt(input.value) > 0) input.value = parseInt(input.value) - 1;
+            });
+        });
+
+        container.querySelectorAll('.btn-plus').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const input = e.currentTarget.closest('div').querySelector('input');
+                input.value = parseInt(input.value) + 1;
+            });
+        });
+    }
+
     if (foundry?.applications?.api?.DialogV2) {
-        // v13+: use DialogV2
+        // v13+: DialogV2 usa ApplicationV2 que não permite onclick no HTML
+        Hooks.once('renderDialogV2', (app, html) => {
+            setupButtons(html);
+        });
+
         await foundry.applications.api.DialogV2.wait({
             window: { title: "Rolagem Assimilação RPG" },
             content,
@@ -61,10 +85,11 @@ export const macroCommand = `
             rejectClose: false
         });
     } else {
-        // v12: use legacy Dialog
+        // v12: Dialog legado usa render callback
         new Dialog({
             title: "Rolagem Assimilação RPG",
             content,
+            render: setupButtons,
             buttons: {
                 roll: {
                     label: "Rolar",

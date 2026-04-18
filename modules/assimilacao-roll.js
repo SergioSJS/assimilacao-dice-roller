@@ -1,22 +1,15 @@
 import { DieAssimilacaoD6, DieAssimilacaoD10, DieAssimilacaoD12 } from './die.js';
 
-Hooks.once("init", async function () {
-    console.log("Assimilacao Dice Roller | Initializing...");
-
-    // Registra os tipos de dados personalizados no CONFIG.Dice.terms
-    CONFIG.Dice.terms["a"] = DieAssimilacaoD6;    // d6 personalizado
-    CONFIG.Dice.terms["b"] = DieAssimilacaoD10; // d10 personalizado
-    CONFIG.Dice.terms["c"] = DieAssimilacaoD12; // d12 personalizado
+Hooks.once("init", () => {
+    CONFIG.Dice.terms["a"] = DieAssimilacaoD6;
+    CONFIG.Dice.terms["b"] = DieAssimilacaoD10;
+    CONFIG.Dice.terms["c"] = DieAssimilacaoD12;
 });
 
-
 Hooks.once('diceSoNiceReady', (dice3d) => {
-    console.log("Assimilacao Dice Roller | Configuring Dice So Nice...");
-
-    // Adiciona o sistema personalizado "assimilacao"
+    // Second arg: any value != "default" sets this as the preferred system when user is on "standard"
     dice3d.addSystem({ id: "assimilacao", name: "Assimilacao" }, true);
 
-    // Configuração do d6 personalizado
     dice3d.addDicePreset({
         type: "da",
         labels: [
@@ -39,7 +32,6 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
         shape: "d6"
     });
 
-    // Configuração do d10 personalizado
     dice3d.addDicePreset({
         type: "db",
         labels: [
@@ -67,10 +59,9 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
             'modules/assimilacao-dice-roller/images/D10_10_bump.png'
         ],
         system: "assimilacao",
-        shape: "d10" // Modelo 3D correto para o dado d10
+        shape: "d10"
     });
 
-    // Configuração do d12 personalizado
     dice3d.addDicePreset({
         type: "dc",
         labels: [
@@ -102,35 +93,38 @@ Hooks.once('diceSoNiceReady', (dice3d) => {
             'modules/assimilacao-dice-roller/images/D12_12_bump.png'
         ],
         system: "assimilacao",
-        shape: "d12" // Modelo 3D correto para o dado d12
+        shape: "d12"
     });
 });
 
-Hooks.on("renderChatMessage", (message, html, data) => {
-    // Verifica se a mensagem contém rolagens customizadas
-    if (message.rolls && message.rolls.some(roll => roll.formula.match(/d[abc]/))) {
-        const tooltip = html.find(".dice-tooltip");
-        // Expande a tooltip automaticamente para rolagens customizadas
-        tooltip.addClass("expanded").css("display", "block");
-
-        const formulaElement = html.find(".dice-formula");
-        // Substitui a fórmula original para cada tipo de dado personalizado
-        let newFormula = message.rolls[0].formula
-            .replace(/(\d+)da/g, "$1d6 ($1da)")
-            .replace(/(\d+)db/g, "$1d10 ($1db)")
-            .replace(/(\d+)dc/g, "$1d12 ($1dc)");
-        // Atualiza o texto da fórmula no chat
-        formulaElement.text(newFormula);
-
-        // Atualiza as fórmulas em cada parte individual
-        const partFormulas = html.find(".part-formula");
-        partFormulas.each((_, element) => {
-            const originalText = $(element).text();
-            const updatedText = originalText
-                .replace(/(\d+)da/g, "$1d6 ($1da)")
-                .replace(/(\d+)db/g, "$1d10 ($1db)")
-                .replace(/(\d+)dc/g, "$1d12 ($1dc)");
-            $(element).text(updatedText);
-        });
-    }
+// v13+: ChatMessage uses ApplicationV2, html is HTMLElement
+Hooks.on("renderChatMessageHTML", (message, html) => {
+    _patchChatFormula(message, html);
 });
+
+// v12: legacy hook with jQuery; skip on v13+ to avoid double-patching
+Hooks.on("renderChatMessage", (message, html) => {
+    if (game.release?.generation >= 13) return;
+    const element = html instanceof HTMLElement ? html : html[0];
+    if (element) _patchChatFormula(message, element);
+});
+
+function _patchChatFormula(message, element) {
+    if (!message.rolls?.some(roll => roll.formula.match(/d[abc]/))) return;
+
+    const formulaEl = element.querySelector(".dice-formula");
+    if (formulaEl) {
+        formulaEl.textContent = _replaceFormula(message.rolls[0].formula);
+    }
+
+    for (const el of element.querySelectorAll(".part-formula")) {
+        el.textContent = _replaceFormula(el.textContent);
+    }
+}
+
+function _replaceFormula(text) {
+    return text
+        .replace(/(\d+)da/g, "$1d6 ($1da)")
+        .replace(/(\d+)db/g, "$1d10 ($1db)")
+        .replace(/(\d+)dc/g, "$1d12 ($1dc)");
+}

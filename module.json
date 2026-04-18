@@ -1,11 +1,18 @@
 {
-	"name": "assimilacao-dice-roller",
+	"id": "assimilacao-dice-roller",
 	"title": "Assimilacao Dice Roller",
-	"description": "Adds the ability to roll a Assimilacao die",
-	"version": "0.2.0",
-	"minimumCoreVersion" : "0.8.8",
-	"compatibleCoreVersion" : "12",
-	"author": "Sérgio Sousa (meioorc.com)",
+	"description": "Adds custom dice and rolling support for Assimilação RPG, including 3D dice integration via Dice So Nice!",
+	"version": "0.3.0",
+	"compatibility": {
+		"minimum": "12",
+		"verified": "14"
+	},
+	"authors": [
+		{
+			"name": "Sérgio Sousa",
+			"url": "https://meioorc.com"
+		}
+	],
 	"esmodules": [
 		"./modules/assimilacao-roll.js",
 		"./modules/macro-setup.js"
@@ -14,13 +21,14 @@
 		"./css/assimilacao-roll.css"
 	],
 	"url": "https://github.com/SergioSJS/assimilacao-dice-roller",
-	"manifest": "https://raw.githubusercontent.com/SergioSJS/assimilacao-dice-roller/refs/heads/main/module.json",
-	"download": "https://github.com/SergioSJS/assimilacao-dice-roller/archive/refs/heads/main.zip",
-	"dependencies": [
-		{
-			"name": "dice-so-nice",
-			"title": "Dice So Nice!",
-			"manifest": "https://gitlab.com/riccisi/foundryvtt-dice-so-nice/raw/main/module/module.json"
-		}
-	]
+	"manifest": "https://raw.githubusercontent.com/SergioSJS/assimilacao-dice-roller/main/module.json",
+	"download": "https://github.com/SergioSJS/assimilacao-dice-roller/releases/latest/download/assimilacao-dice-roller.zip",
+	"relationships": {
+		"requires": [
+			{
+				"id": "dice-so-nice",
+				"type": "module"
+			}
+		]
+	}
 }

@@ -1,6 +1,5 @@
 const { Die } = foundry.dice.terms;
 
-// Mapa global de imagens para reutilização
 const IMAGE_PATHS = {
     d6: [
         'modules/assimilacao-dice-roller/images/vazio.png',
@@ -38,49 +37,41 @@ const IMAGE_PATHS = {
     ]
 };
 
+function getUserColor() {
+    return game.user.color?.css ?? "#466555";
+}
+
 export class DieAssimilacaoD6 extends Die {
     constructor(termData) {
-        termData.faces = 6; 
+        termData.faces = 6;
         super(termData);
     }
 
-    /** @override */
     static DENOMINATION = "a";
 
-    /** @override */
     getResultLabel(result) {
-        const userColor = game.user.color.css || "#466555"; // Substitua com sua cor padrão
-
-        const path = IMAGE_PATHS.d6[result.result - 1]; // Ajusta índice baseado no resultado
-        return `
-       <div class="dice-result assimilation-dice dieassimilacaod6" style="background-color: ${userColor};">
+        const path = IMAGE_PATHS.d6[result.result - 1];
+        return `<div class="dice-result assimilation-dice dieassimilacaod6" style="background-color: ${getUserColor()};">
             <img src="${path}" alt="D6 - ${result.result}">
-            <img src="modules/assimilacao-dice-roller/images/frame-d6.png" alt="Frame D6" class="dice-frame">
-        </div>
-    `;
+            <img src="modules/assimilacao-dice-roller/images/frame-d6.png" alt="" class="dice-frame">
+        </div>`;
     }
 }
 
 export class DieAssimilacaoD10 extends Die {
     constructor(termData) {
-        termData.faces = 10; 
+        termData.faces = 10;
         super(termData);
     }
 
-    /** @override */
     static DENOMINATION = "b";
 
-    /** @override */
-     getResultLabel(result) {
-        const userColor = game.user.color.css || "#466555"; // Substitua com sua cor padrão
-
+    getResultLabel(result) {
         const path = IMAGE_PATHS.d10[result.result - 1];
-        return `
-        <div class="dice-result assimilation-dice dieassimilacaod10" style="background-color: ${userColor};">
+        return `<div class="dice-result assimilation-dice dieassimilacaod10" style="background-color: ${getUserColor()};">
             <img src="${path}" alt="D10 - ${result.result}">
-            <img src="modules/assimilacao-dice-roller/images/frame-d10.png" alt="Frame D10" class="dice-frame">
-        </div>
-    `;
+            <img src="modules/assimilacao-dice-roller/images/frame-d10.png" alt="" class="dice-frame">
+        </div>`;
     }
 }
 
@@ -90,19 +81,13 @@ export class DieAssimilacaoD12 extends Die {
         super(termData);
     }
 
-    /** @override */
     static DENOMINATION = "c";
 
-    /** @override */
     getResultLabel(result) {
-        const userColor = game.user.color.css || "#466555"; // Substitua com sua cor padrão
-
         const path = IMAGE_PATHS.d12[result.result - 1];
-        return `
-        <div class="dice-result assimilation-dice dieassimilacaod12" style="background-color: ${userColor};">
-        <img src="${path}" alt="D12 - ${result.result}">
-        <img src="modules/assimilacao-dice-roller/images/frame-d12.png" alt="Frame D12" class="dice-frame">
-        </div>
-    `;
+        return `<div class="dice-result assimilation-dice dieassimilacaod12" style="background-color: ${getUserColor()};">
+            <img src="${path}" alt="D12 - ${result.result}">
+            <img src="modules/assimilacao-dice-roller/images/frame-d12.png" alt="" class="dice-frame">
+        </div>`;
     }
 }

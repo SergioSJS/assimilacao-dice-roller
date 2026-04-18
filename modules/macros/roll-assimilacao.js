@@ -1,87 +1,83 @@
 export const macroCommand = `
-new Dialog({
-    title: "Rolagem Assimilação RPG",
-    content: \`
+(async () => {
+    const content = \`
         <form>
             <div class="form-group">
-                <label for="d6">Quantidade de D6:</label>
-                <div style="display: flex; gap: 5px; align-items: center;">
-                    <button type="button" id="decrement-d6">-</button>
-                    <input type="number" id="d6" name="d6" value="0" min="0" style="width: 50px; text-align: center;" />
-                    <button type="button" id="increment-d6">+</button>
+                <label>Quantidade de D6:</label>
+                <div style="display:flex;gap:5px;align-items:center">
+                    <button type="button" onclick="var i=this.closest('div').querySelector('input');if(+i.value>0)i.value=+i.value-1">-</button>
+                    <input type="number" name="d6" value="0" min="0" style="width:50px;text-align:center">
+                    <button type="button" onclick="var i=this.closest('div').querySelector('input');i.value=+i.value+1">+</button>
                 </div>
             </div>
             <div class="form-group">
-                <label for="d10">Quantidade de D10:</label>
-                <div style="display: flex; gap: 5px; align-items: center;">
-                    <button type="button" id="decrement-d10">-</button>
-                    <input type="number" id="d10" name="d10" value="0" min="0" style="width: 50px; text-align: center;" />
-                    <button type="button" id="increment-d10">+</button>
+                <label>Quantidade de D10:</label>
+                <div style="display:flex;gap:5px;align-items:center">
+                    <button type="button" onclick="var i=this.closest('div').querySelector('input');if(+i.value>0)i.value=+i.value-1">-</button>
+                    <input type="number" name="d10" value="0" min="0" style="width:50px;text-align:center">
+                    <button type="button" onclick="var i=this.closest('div').querySelector('input');i.value=+i.value+1">+</button>
                 </div>
             </div>
             <div class="form-group">
-                <label for="d12">Quantidade de D12:</label>
-                <div style="display: flex; gap: 5px; align-items: center;">
-                    <button type="button" id="decrement-d12">-</button>
-                    <input type="number" id="d12" name="d12" value="0" min="0" style="width: 50px; text-align: center;" />
-                    <button type="button" id="increment-d12">+</button>
+                <label>Quantidade de D12:</label>
+                <div style="display:flex;gap:5px;align-items:center">
+                    <button type="button" onclick="var i=this.closest('div').querySelector('input');if(+i.value>0)i.value=+i.value-1">-</button>
+                    <input type="number" name="d12" value="0" min="0" style="width:50px;text-align:center">
+                    <button type="button" onclick="var i=this.closest('div').querySelector('input');i.value=+i.value+1">+</button>
                 </div>
             </div>
         </form>
-    \`,
-    buttons: {
-        roll: {
-            label: "Rolar",
-            callback: async (html) => {
-                const d6 = parseInt(html.find("#d6").val()) || 0;
-                const d10 = parseInt(html.find("#d10").val()) || 0;
-                const d12 = parseInt(html.find("#d12").val()) || 0;
+    \`;
 
-                if (d6 === 0 && d10 === 0 && d12 === 0) {
-                    ui.notifications.warn("Por favor, insira ao menos um dado para rolar.");
-                    return;
-                }
-
-                const formula = [
-                    d6 > 0 ? \`\${d6}da\` : "",
-                    d10 > 0 ? \`\${d10}db\` : "",
-                    d12 > 0 ? \`\${d12}dc\` : ""
-                ].filter(Boolean).join(" + ");
-
-                const roll = new Roll(formula);
-                await roll.evaluate(); // Avaliação assíncrona válida
-                roll.toMessage({
-                    speaker: ChatMessage.getSpeaker(),
-                });
-            }
+    async function doRoll(d6, d10, d12) {
+        if (!d6 && !d10 && !d12) {
+            ui.notifications.warn("Por favor, insira ao menos um dado para rolar.");
+            return;
         }
-    },
-    default: "roll",
-    render: (html) => {
-        html.find("#increment-d6").click(() => {
-            const input = html.find("#d6");
-            input.val(parseInt(input.val()) + 1);
-        });
-        html.find("#decrement-d6").click(() => {
-            const input = html.find("#d6");
-            if (parseInt(input.val()) > 0) input.val(parseInt(input.val()) - 1);
-        });
-        html.find("#increment-d10").click(() => {
-            const input = html.find("#d10");
-            input.val(parseInt(input.val()) + 1);
-        });
-        html.find("#decrement-d10").click(() => {
-            const input = html.find("#d10");
-            if (parseInt(input.val()) > 0) input.val(parseInt(input.val()) - 1);
-        });
-        html.find("#increment-d12").click(() => {
-            const input = html.find("#d12");
-            input.val(parseInt(input.val()) + 1);
-        });
-        html.find("#decrement-d12").click(() => {
-            const input = html.find("#d12");
-            if (parseInt(input.val()) > 0) input.val(parseInt(input.val()) - 1);
-        });
+        const parts = [];
+        if (d6 > 0) parts.push(\`\${d6}da\`);
+        if (d10 > 0) parts.push(\`\${d10}db\`);
+        if (d12 > 0) parts.push(\`\${d12}dc\`);
+        const roll = new Roll(parts.join(" + "));
+        await roll.evaluate();
+        await roll.toMessage({ speaker: ChatMessage.getSpeaker() });
     }
-}).render(true);
+
+    if (foundry?.applications?.api?.DialogV2) {
+        // v13+: use DialogV2
+        await foundry.applications.api.DialogV2.wait({
+            window: { title: "Rolagem Assimilação RPG" },
+            content,
+            buttons: [{
+                action: "roll",
+                label: "Rolar",
+                callback: async (event, button) => {
+                    const d6 = button.form.elements.d6.valueAsNumber || 0;
+                    const d10 = button.form.elements.d10.valueAsNumber || 0;
+                    const d12 = button.form.elements.d12.valueAsNumber || 0;
+                    await doRoll(d6, d10, d12);
+                }
+            }],
+            rejectClose: false
+        });
+    } else {
+        // v12: use legacy Dialog
+        new Dialog({
+            title: "Rolagem Assimilação RPG",
+            content,
+            buttons: {
+                roll: {
+                    label: "Rolar",
+                    callback: async (html) => {
+                        const d6 = parseInt(html.find("[name=d6]").val()) || 0;
+                        const d10 = parseInt(html.find("[name=d10]").val()) || 0;
+                        const d12 = parseInt(html.find("[name=d12]").val()) || 0;
+                        await doRoll(d6, d10, d12);
+                    }
+                }
+            },
+            default: "roll"
+        }).render(true);
+    }
+})();
 `;
